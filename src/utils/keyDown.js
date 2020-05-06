@@ -1,4 +1,4 @@
-export const onKeydown = (event) => {
+const onKeydown = (event) => {
   event = event || window.event
   switch (event.keyCode) {
     case 38:
@@ -9,5 +9,9 @@ export const onKeydown = (event) => {
       return 'left'
     case 39:
       return 'right'
+    default:
+    //   setDirection('right')
   }
 }
+
+export default onKeydown

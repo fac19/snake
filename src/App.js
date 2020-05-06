@@ -1,35 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import Snake from './snake'
-import Food from './food'
-
-const getRandomCoordinates = () => {
-  let min = 1
-  let max = 98
-  let x = Math.floor((Math.random() * (max - min + 1)) / 2) * 2
-  let y = Math.floor((Math.random() * (max - min + 1)) / 2) * 2
-
-  return [x, y]
-}
-
-const initialState = {
-  speed: 200,
-  food: getRandomCoordinates(),
-  direction: 'right',
-  snakeDots: [
-    [0, 0],
-    [2, 0],
-    [4, 0],
-    [6, 0],
-    [8, 0],
-  ],
-}
-
-function getRandomSnakes() {
-  fetch('api.giphy.com/v1/gifs/random/tag=snake&api_key=' + process.ENV.api_key)
-    .then((response) => response.json())
-    .then(console.log)
-    .catch(console.error)
-}
+import React, { useState, useEffect, useRef } from 'react'
+import Snake from './components/snake'
+import Food from './components/food'
+import getRandomCoordinates from './utils/getRandomCoordinates'
+import initialState from './utils/initialState'
+import onKeydown from './utils/keyDown'
 
 function App(props) {
   const [speed, setSpeed] = useState(initialState.speed)
@@ -37,34 +11,17 @@ function App(props) {
   const [direction, setDirection] = useState(initialState.direction)
   const [snakeDots, setSnakeDots] = useState(initialState.snakeDots)
 
-  React.useEffect(() => {
-    setInterval(moveSnake, speed)
-    document.onkeydown = onKeyDown
-  }, [])
+  useEffect(() => {
+    const keyDownCallback = (e) => setDirection(onKeydown(e)) //include in presentation
+    window.addEventListener('keydown', keyDownCallback)
+    return () => window.removeEventListener('keydown', keyDownCallback)
+  }, [snakeDots])
 
-  React.useEffect(() => {
+  useEffect(() => {
     checkIfOutOfBorders()
     checkIfCollided()
     checkEat()
-  }, [snakeDots])
-
-  const onKeyDown = (event) => {
-    event = event || window.event
-    switch (event.keyCode) {
-      case 38:
-        setDirection('up')
-        break
-      case 40:
-        setDirection('down')
-        break
-      case 37:
-        setDirection('left')
-        break
-      case 39:
-        setDirection('right')
-        break
-    }
-  }
+  })
 
   const moveSnake = () => {
     let dots = [...snakeDots]
@@ -83,6 +40,8 @@ function App(props) {
       case 'down':
         head = [head[0], head[1] + 2]
         break
+      default:
+        head = [head[0] + 2, head[1]]
     }
     dots.push(head)
     dots.shift()
@@ -91,7 +50,6 @@ function App(props) {
 
   const checkIfOutOfBorders = () => {
     let head = snakeDots[snakeDots.length - 1]
-    console.log(head)
     if (head[0] >= 100 || head[0] < 0 || head[1] >= 100 || head[1] < 0) {
       onGameOver()
     }
@@ -137,6 +95,27 @@ function App(props) {
     setFood(initialState.food)
     setDirection(initialState.direction)
     setSnakeDots(initialState.snakeDots)
+  }
+
+  useInterval(moveSnake, speed)
+
+  function useInterval(callback, snakeSpeed) {
+    const savedCallback = useRef
+    // Remember the latest callback.
+    useEffect(() => {
+      savedCallback.current = callback
+    }, [callback, savedCallback])
+    // Set up the interval.
+    useEffect(() => {
+      function tick() {
+        savedCallback.current()
+      }
+      if (snakeSpeed !== null) {
+        let id = setInterval(tick, snakeSpeed)
+        console.log(id)
+        return () => clearInterval(id)
+      }
+    }, [snakeSpeed, savedCallback])
   }
 
   return (
