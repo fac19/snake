@@ -17,7 +17,7 @@
   width: 2%;
   height: 2%;
   transition: all 0.1s;
-  background-color: black;
+  background-color: rgba(0, 0, 0, 1);
   border: 1px solid white;
   z-index: 2;
 }
@@ -32,17 +32,17 @@
 }
 
 .segment0 {
-  opacity: 30%;
+  background-color: rgba(0, 0, 0, 0.3);
   transition: all 0.8s;
 }
 
 .segment1 {
-  opacity: 60%;
+  background-color: rgba(0, 0, 0, 0.6);
   transition: all 0.6s;
 }
 
 .segment2 {
-  opacity: 90%;
+  background-color: rgba(0, 0, 0, 0.9);
   transition: all 0.4s;
 }
 .segment3 {
