@@ -18,6 +18,17 @@ export default ({ gamePlay, onChange }) => {
           <span className="character-name">Boris Johnson</span>
         </span>
       </a>
+      <div>
+        <h3 className="title">How To Play</h3>
+        <p className="instructions">
+          Using the keypad: Help your chosen snake slither across the country
+          collecting votes. <br />
+          As they gather votes the amount of constituencies grow. <br /> But
+          time is of the essence! As your constituencies grow weary of your
+          serpentine anticts they will leave. <br />{' '}
+          <span className="accent">How long can you last in UK politics?</span>
+        </p>
+      </div>
     </div>
   )
 }
