@@ -1,15 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import Snake from './components/snake'
 import Food from './components/food'
 import getRandomCoordinates from './utils/getRandomCoordinates'
 import initialState from './utils/initialState'
 import onKeydown from './utils/keyDown'
+import getGif from "./utils/getSnake"
+import useInterval from "./utils/useInterval"
 
-function App(props) {
+function App() {
   const [speed, setSpeed] = useState(initialState.speed)
   const [food, setFood] = useState(initialState.food)
   const [direction, setDirection] = useState(initialState.direction)
   const [snakeDots, setSnakeDots] = useState(initialState.snakeDots)
+  const [backgroundURL, setBackgroundURL] = useState(initialState.id)
 
   useEffect(() => {
     const keyDownCallback = (e) => setDirection(onKeydown(e)) //include in presentation
@@ -72,6 +75,7 @@ function App(props) {
 
     if (head[0] === foodPosition[0] && head[1] === food[1]) {
       setFood(getRandomCoordinates())
+      getGif().then(res => setBackgroundURL(res.data.id));
       enlargeSnake()
       increaseSpeed()
     }
@@ -99,27 +103,13 @@ function App(props) {
 
   useInterval(moveSnake, speed)
 
-  function useInterval(callback, snakeSpeed) {
-    const savedCallback = useRef
-    // Remember the latest callback.
-    useEffect(() => {
-      savedCallback.current = callback
-    }, [callback, savedCallback])
-    // Set up the interval.
-    useEffect(() => {
-      function tick() {
-        savedCallback.current()
-      }
-      if (snakeSpeed !== null) {
-        let id = setInterval(tick, snakeSpeed)
-        console.log(id)
-        return () => clearInterval(id)
-      }
-    }, [snakeSpeed, savedCallback])
-  }
-
   return (
-    <div className="game-area">
+    <div className="game-area" 
+    style={{backgroundImage:`url(https://media.giphy.com/media/${
+      backgroundURL ? 
+      backgroundURL : 
+      initialState.id 
+    }/giphy.gif)`}}>
       <Snake snakeDots={snakeDots} />
       <Food dot={food} />
     </div>

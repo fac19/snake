@@ -4,12 +4,19 @@
   width: 600px;
   height: 600px;
   border:2px solid black;
+  background-size: cover;
+  transition: all 0.7s;
+  box-shadow: 25px 10px 70px -5px rgba(0, 0, 0, 0.3);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .snake-dot {
   position: absolute;
   width: 2%;
   height: 2%;
+  transition: all 0.7s;
   background-color: black;
   border: 1px solid white;
   z-index: 2;
@@ -19,7 +26,7 @@
   position: absolute;
   width: 2%;
   height: 2%;
-  background-color: red;
-  border: 1px solid white;
+  background-image: url(https://upload.wikimedia.org/wikipedia/commons/4/46/Vote_icon.svg);
+  background-size: contain;
   z-index: 1;
 }
