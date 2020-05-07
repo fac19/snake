@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import Score from './components/score'
 import Snake from './components/snake'
 import Food from './components/food'
 import CharacterSelector from './components/characterSelector'
@@ -134,6 +135,7 @@ function App() {
           }/giphy.gif)`,
         }}
       >
+        <Score consts={snakeDots.length} />
         <Snake snakeDots={snakeDots} />
         <Food dot={food} />
       </div>
