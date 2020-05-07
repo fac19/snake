@@ -18,6 +18,8 @@ function App() {
   const [gamePlay, setGamePlay] = useState(false)
   const [removeSegment, setRemoveSegment] = useState(0)
   const [character, setCharacter] = useState('boris')
+  const [score, setScore] = useState(0)
+  const [topScore, setTopScore] = useState(0)
 
   useEffect(() => {
     const keyDownCallback = (e) => setDirection(onKeydown(e, direction)) //include in presentation
@@ -55,6 +57,7 @@ function App() {
     }
     dots.push(head)
     dots.shift()
+    setScore(score + 1 * -(210 - speed) * 0.1)
     setRemoveSegment(removeSegment + 1)
     if (removeSegment % 30 == 0) {
       dots.shift()
@@ -112,7 +115,10 @@ function App() {
     setDirection(initialState.direction)
     setSnakeDots(initialState.snakeDots)
     setRemoveSegment(0)
-    console.log(snakeDots.length)
+    if (score < topScore) {
+      setTopScore(score)
+    }
+    setScore(0)
   }
 
   useInterval(moveSnake, speed)
@@ -137,13 +143,13 @@ function App() {
           }/giphy.gif)`,
         }}
       >
-        <Score consts={snakeDots.length} />
+        <Score consts={snakeDots.length} pointScore={score} />
         <Snake snakeDots={snakeDots} character={character} />
         <Food dot={food} />
       </div>
     )
   } else {
-    return <CharacterSelector onChange={handleChange} />
+    return <CharacterSelector onChange={handleChange} topScore={topScore} />
   }
 }
 
