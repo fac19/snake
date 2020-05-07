@@ -54,11 +54,20 @@
   top: 50%;
   left: 50%;
   transform: translate(-25%, -25%);
-  background-image: url(/public/boris.png);
   background-size: cover;
+  background-color: transparent;
+  border: none;
   width: 30px;
   height: 30px;
   transition: all 0.1s;
+}
+
+.boris {
+  background-image: url('./boris.png');
+}
+
+.nigel {
+  background-image: url('./nigel.png');
 }
 
 .score {

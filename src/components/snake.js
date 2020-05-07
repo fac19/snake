@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default ({ snakeDots }) => {
+export default ({ snakeDots, character }) => {
   return (
     <div>
       {snakeDots.map((dot, i) => {
@@ -11,7 +11,7 @@ export default ({ snakeDots }) => {
         if (i == snakeDots.length - 1) {
           return (
             <div
-              className={`snake-dot segment${i} head`}
+              className={`snake-dot segment${i} head ${character}`}
               key={i}
               style={style}
             ></div>
