@@ -4,6 +4,8 @@
   width: 600px;
   height: 600px;
   border:2px solid black;
+  background-image: url(https://media.giphy.com/media/QtZKO7mb7ebpC/giphy.gif);
+  background-size: cover;
 }
 
 .snake-dot {
@@ -19,7 +21,7 @@
   position: absolute;
   width: 2%;
   height: 2%;
-  background-color: red;
-  border: 1px solid white;
+  background-image: url(https://upload.wikimedia.org/wikipedia/commons/4/46/Vote_icon.svg);
+  background-size: contain;
   z-index: 1;
 }
