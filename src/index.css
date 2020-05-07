@@ -16,6 +16,7 @@
   position: absolute;
   width: 2%;
   height: 2%;
+  transition: all 0.7s;
   background-color: black;
   border: 1px solid white;
   z-index: 2;
