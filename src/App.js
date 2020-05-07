@@ -17,16 +17,18 @@ function App() {
   const [backgroundURL, setBackgroundURL] = useState(initialState.id)
   const [gamePlay, setGamePlay] = useState(false)
   const [removeSegment, setRemoveSegment] = useState(0)
+  const [character, setCharacter] = useState('boris')
 
   useEffect(() => {
-    const keyDownCallback = (e) => setDirection(onKeydown(e)) //include in presentation
+    const keyDownCallback = (e) => setDirection(onKeydown(e, direction)) //include in presentation
     window.addEventListener('keydown', keyDownCallback)
     return () => window.removeEventListener('keydown', keyDownCallback)
   }, [snakeDots])
 
-  function handleChange() {
+  function handleChange(event) {
     setGamePlay(true)
     setSpeed(initialState.speed)
+    setCharacter(event.target.id)
   }
 
   const moveSnake = () => {
@@ -136,7 +138,7 @@ function App() {
         }}
       >
         <Score consts={snakeDots.length} />
-        <Snake snakeDots={snakeDots} />
+        <Snake snakeDots={snakeDots} character={character} />
         <Food dot={food} />
       </div>
     )
