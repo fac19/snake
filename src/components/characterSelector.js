@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default ({ onChange }) => {
+export default ({ onChange, topScore }) => {
   return (
     <div>
       <h2 className="title">Choose Your Snake</h2>
@@ -16,6 +16,7 @@ export default ({ onChange }) => {
           <span className="character-name">Boris Johnson</span>
         </span>
       </a>
+      <output>Top score: {topScore} </output>
       <div>
         <h3 className="title">How To Play</h3>
         <p className="instructions">

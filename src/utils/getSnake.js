@@ -4,6 +4,7 @@ function getGif() {
   return window
     .fetch(
       'https://api.giphy.com/v1/gifs/random?rating=pg&tag=snake&api_key=' + key,
+      // process.env.API_KEY,
     )
     .then((res) => {
       if (!res.ok) {

@@ -1,7 +1,12 @@
 import React from 'react'
 
-const Score = ({ consts }) => {
-  return <output className="score">You have {consts} constituents!</output>
+const Score = ({ consts, pointScore }) => {
+  return (
+    <div className="score">
+      <output>{consts} constituents!</output>
+      <output>You have {pointScore} points!</output>
+    </div>
+  )
 }
 
 export default Score
