@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import Snake from './components/snake'
 import Food from './components/food'
+import CharacterSelector from './components/characterSelector'
 import getRandomCoordinates from './utils/getRandomCoordinates'
 import initialState from './utils/initialState'
 import onKeydown from './utils/keyDown'
-import getGif from "./utils/getSnake"
-import useInterval from "./utils/useInterval"
+import getGif from './utils/getSnake'
+import useInterval from './utils/useInterval'
 
 function App() {
   const [speed, setSpeed] = useState(initialState.speed)
@@ -13,6 +14,8 @@ function App() {
   const [direction, setDirection] = useState(initialState.direction)
   const [snakeDots, setSnakeDots] = useState(initialState.snakeDots)
   const [backgroundURL, setBackgroundURL] = useState(initialState.id)
+  const [gamePlay, setGamePlay] = useState(false)
+  const [removeSegment, setRemoveSegment] = useState(0)
 
   useEffect(() => {
     const keyDownCallback = (e) => setDirection(onKeydown(e)) //include in presentation
@@ -20,34 +23,40 @@ function App() {
     return () => window.removeEventListener('keydown', keyDownCallback)
   }, [snakeDots])
 
-  useEffect(() => {
-    checkIfOutOfBorders()
-    checkIfCollided()
-    checkEat()
-  })
+  function handleChange() {
+    setGamePlay(true)
+    setSpeed(initialState.speed)
+  }
 
   const moveSnake = () => {
     let dots = [...snakeDots]
     let head = dots[dots.length - 1]
 
-    switch (direction) {
-      case 'right':
-        head = [head[0] + 2, head[1]]
-        break
-      case 'left':
-        head = [head[0] - 2, head[1]]
-        break
-      case 'up':
-        head = [head[0], head[1] - 2]
-        break
-      case 'down':
-        head = [head[0], head[1] + 2]
-        break
-      default:
-        head = [head[0] + 2, head[1]]
+    if (dots.length > 0) {
+      switch (direction) {
+        case 'right':
+          head = [head[0] + 2, head[1]]
+          break
+        case 'left':
+          head = [head[0] - 2, head[1]]
+          break
+        case 'up':
+          head = [head[0], head[1] - 2]
+          break
+        case 'down':
+          head = [head[0], head[1] + 2]
+          break
+        default:
+          head = [head[0] + 2, head[1]]
+      }
     }
     dots.push(head)
     dots.shift()
+    setRemoveSegment(removeSegment + 1)
+    if (removeSegment % 30 == 0) {
+      dots.shift()
+    }
+
     setSnakeDots(dots)
   }
 
@@ -75,7 +84,7 @@ function App() {
 
     if (head[0] === foodPosition[0] && head[1] === food[1]) {
       setFood(getRandomCoordinates())
-      getGif().then(res => setBackgroundURL(res.data.id));
+      getGif().then((res) => setBackgroundURL(res.data.id))
       enlargeSnake()
       increaseSpeed()
     }
@@ -94,26 +103,44 @@ function App() {
   }
 
   const onGameOver = () => {
-    alert(`Game Over. Snake length ${snakeDots.length}`)
-    setSpeed(initialState.speed)
+    setSpeed(null)
+    setGamePlay(false)
     setFood(initialState.food)
     setDirection(initialState.direction)
     setSnakeDots(initialState.snakeDots)
+    setRemoveSegment(0)
+    console.log(snakeDots.length)
   }
 
   useInterval(moveSnake, speed)
 
-  return (
-    <div className="game-area" 
-    style={{backgroundImage:`url(https://media.giphy.com/media/${
-      backgroundURL ? 
-      backgroundURL : 
-      initialState.id 
-    }/giphy.gif)`}}>
-      <Snake snakeDots={snakeDots} />
-      <Food dot={food} />
-    </div>
-  )
+  useEffect(() => {
+    if (snakeDots.length > 0) {
+      checkIfOutOfBorders()
+      checkIfCollided()
+      checkEat()
+    } else {
+      onGameOver()
+    }
+  })
+
+  if (gamePlay) {
+    return (
+      <div
+        className="game-area"
+        style={{
+          backgroundImage: `url(https://media.giphy.com/media/${
+            backgroundURL ? backgroundURL : initialState.id
+          }/giphy.gif)`,
+        }}
+      >
+        <Snake snakeDots={snakeDots} />
+        <Food dot={food} />
+      </div>
+    )
+  } else {
+    return <CharacterSelector onChange={handleChange} />
+  }
 }
 
 export default App
