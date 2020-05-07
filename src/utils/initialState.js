@@ -3,7 +3,7 @@ import getRandomCoordinates from './getRandomCoordinates'
 const initialState = {
   speed: 200,
   food: getRandomCoordinates,
-  direction: 'down',
+  direction: 'right',
   snakeDots: [
     [0, 0],
     [2, 0],
@@ -11,6 +11,7 @@ const initialState = {
     [6, 0],
     [8, 0],
   ],
+  id: 'QtZKO7mb7ebpC'
 }
 
 export default initialState

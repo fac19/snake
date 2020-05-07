@@ -4,8 +4,12 @@
   width: 600px;
   height: 600px;
   border:2px solid black;
-  background-image: url(https://media.giphy.com/media/QtZKO7mb7ebpC/giphy.gif);
   background-size: cover;
+  transition: all 0.7s;
+  box-shadow: 25px 10px 70px -5px rgba(0, 0, 0, 0.3);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .snake-dot {
