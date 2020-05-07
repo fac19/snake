@@ -16,7 +16,7 @@ export default ({ onChange, topScore }) => {
           <span className="character-name">Boris Johnson</span>
         </span>
       </a>
-      <output>Top score: {topScore} </output>
+      <output class="top-score">Top score: {topScore} </output>
       <div>
         <h3 className="title">How To Play</h3>
         <p className="instructions">
