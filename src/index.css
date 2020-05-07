@@ -19,10 +19,40 @@
   position: absolute;
   width: 2%;
   height: 2%;
-  /* transition: all 0.7s; */
+  transition: all 0.1s;
   background-color: black;
   border: 1px solid white;
   z-index: 2;
+}
+
+.segment0 {
+  opacity: 30%;
+  transition: all 0.8s;
+}
+
+.segment1 {
+  opacity: 60%;
+  transition: all 0.6s;
+}
+
+.segment2 {
+  opacity: 90%;
+  transition: all 0.4s;
+}
+.segment3 {
+  transition: all 0.2s;
+}
+
+.head {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-25%, -25%);
+  background-image: url(https://i.ebayimg.com/images/g/WAQAAOSwgR5dSDls/s-l300.jpg);
+  background-size: cover;
+  width: 30px;
+  height: 30px;
+  transition: all 0.1s;
 }
 
 .snake-food {

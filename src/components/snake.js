@@ -8,7 +8,23 @@ export default ({ snakeDots }) => {
           left: `${dot[0]}%`,
           top: `${dot[1]}%`,
         }
-        return <div className={`snake-dot`} key={i} style={style}></div>
+        if (i == snakeDots.length - 1) {
+          return (
+            <div
+              className={`snake-dot segment${i} head`}
+              key={i}
+              style={style}
+            ></div>
+          )
+        } else {
+          return (
+            <div
+              className={`snake-dot segment${i}`}
+              key={i}
+              style={style}
+            ></div>
+          )
+        }
       })}
     </div>
   )

@@ -15,6 +15,7 @@ function App() {
   const [snakeDots, setSnakeDots] = useState(initialState.snakeDots)
   const [backgroundURL, setBackgroundURL] = useState(initialState.id)
   const [gamePlay, setGamePlay] = useState(false)
+  const [removeSegment, setRemoveSegment] = useState(0)
 
   useEffect(() => {
     const keyDownCallback = (e) => setDirection(onKeydown(e)) //include in presentation
@@ -22,38 +23,40 @@ function App() {
     return () => window.removeEventListener('keydown', keyDownCallback)
   }, [snakeDots])
 
-  useEffect(() => {
-    checkIfOutOfBorders()
-    checkIfCollided()
-    checkEat()
-  })
-
   function handleChange() {
     setGamePlay(true)
+    setSpeed(initialState.speed)
   }
 
   const moveSnake = () => {
     let dots = [...snakeDots]
     let head = dots[dots.length - 1]
 
-    switch (direction) {
-      case 'right':
-        head = [head[0] + 2, head[1]]
-        break
-      case 'left':
-        head = [head[0] - 2, head[1]]
-        break
-      case 'up':
-        head = [head[0], head[1] - 2]
-        break
-      case 'down':
-        head = [head[0], head[1] + 2]
-        break
-      default:
-        head = [head[0] + 2, head[1]]
+    if (dots.length > 0) {
+      switch (direction) {
+        case 'right':
+          head = [head[0] + 2, head[1]]
+          break
+        case 'left':
+          head = [head[0] - 2, head[1]]
+          break
+        case 'up':
+          head = [head[0], head[1] - 2]
+          break
+        case 'down':
+          head = [head[0], head[1] + 2]
+          break
+        default:
+          head = [head[0] + 2, head[1]]
+      }
     }
     dots.push(head)
     dots.shift()
+    setRemoveSegment(removeSegment + 1)
+    if (removeSegment % 30 == 0) {
+      dots.shift()
+    }
+
     setSnakeDots(dots)
   }
 
@@ -105,9 +108,21 @@ function App() {
     setFood(initialState.food)
     setDirection(initialState.direction)
     setSnakeDots(initialState.snakeDots)
+    setRemoveSegment(0)
+    console.log(snakeDots.length)
   }
 
   useInterval(moveSnake, speed)
+
+  useEffect(() => {
+    if (snakeDots.length > 0) {
+      checkIfOutOfBorders()
+      checkIfCollided()
+      checkEat()
+    } else {
+      onGameOver()
+    }
+  })
 
   if (gamePlay) {
     return (
