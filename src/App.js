@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import Snake from './components/snake'
 import Food from './components/food'
+import CharacterSelector from './components/characterSelector'
 import getRandomCoordinates from './utils/getRandomCoordinates'
 import initialState from './utils/initialState'
 import onKeydown from './utils/keyDown'
-import getGif from "./utils/getSnake"
-import useInterval from "./utils/useInterval"
+import getGif from './utils/getSnake'
+import useInterval from './utils/useInterval'
 
 function App() {
   const [speed, setSpeed] = useState(initialState.speed)
@@ -13,6 +14,7 @@ function App() {
   const [direction, setDirection] = useState(initialState.direction)
   const [snakeDots, setSnakeDots] = useState(initialState.snakeDots)
   const [backgroundURL, setBackgroundURL] = useState(initialState.id)
+  const [gamePlay, setGamePlay] = useState(false)
 
   useEffect(() => {
     const keyDownCallback = (e) => setDirection(onKeydown(e)) //include in presentation
@@ -25,6 +27,10 @@ function App() {
     checkIfCollided()
     checkEat()
   })
+
+  function handleChange() {
+    setGamePlay(true)
+  }
 
   const moveSnake = () => {
     let dots = [...snakeDots]
@@ -75,7 +81,7 @@ function App() {
 
     if (head[0] === foodPosition[0] && head[1] === food[1]) {
       setFood(getRandomCoordinates())
-      getGif().then(res => setBackgroundURL(res.data.id));
+      getGif().then((res) => setBackgroundURL(res.data.id))
       enlargeSnake()
       increaseSpeed()
     }
@@ -94,8 +100,8 @@ function App() {
   }
 
   const onGameOver = () => {
-    alert(`Game Over. Snake length ${snakeDots.length}`)
-    setSpeed(initialState.speed)
+    setSpeed(null)
+    setGamePlay(false)
     setFood(initialState.food)
     setDirection(initialState.direction)
     setSnakeDots(initialState.snakeDots)
@@ -103,17 +109,23 @@ function App() {
 
   useInterval(moveSnake, speed)
 
-  return (
-    <div className="game-area" 
-    style={{backgroundImage:`url(https://media.giphy.com/media/${
-      backgroundURL ? 
-      backgroundURL : 
-      initialState.id 
-    }/giphy.gif)`}}>
-      <Snake snakeDots={snakeDots} />
-      <Food dot={food} />
-    </div>
-  )
+  if (gamePlay) {
+    return (
+      <div
+        className="game-area"
+        style={{
+          backgroundImage: `url(https://media.giphy.com/media/${
+            backgroundURL ? backgroundURL : initialState.id
+          }/giphy.gif)`,
+        }}
+      >
+        <Snake snakeDots={snakeDots} />
+        <Food dot={food} />
+      </div>
+    )
+  } else {
+    return <CharacterSelector onChange={handleChange} />
+  }
 }
 
 export default App
