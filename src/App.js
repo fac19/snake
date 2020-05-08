@@ -10,7 +10,7 @@ import getGif from './utils/getSnake'
 import useInterval from './utils/useInterval'
 
 function App() {
-  const [speed, setSpeed] = useState(initialState.speed)
+  const [speed, setSpeed] = useState(null)
   const [food, setFood] = useState(initialState.food)
   const [direction, setDirection] = useState(initialState.direction)
   const [snakeDots, setSnakeDots] = useState(initialState.snakeDots)
@@ -20,6 +20,9 @@ function App() {
   const [character, setCharacter] = useState('boris')
   const [score, setScore] = useState(0)
   const [topScore, setTopScore] = useState(0)
+  const [difficulty, setDifficulty] = useState("leeds") // stokeOnTrent -> lambeth
+  const [loseTail, setLoseTail] = useState(30) // stokeOnTrent -> lambeth
+  const [diffMult, setDiffMult] = useState(1) // stokeOnTrent -> lambeth
 
   useEffect(() => {
     const keyDownCallback = (e) => setDirection(onKeydown(e, direction)) //include in presentation
@@ -27,11 +30,37 @@ function App() {
     return () => window.removeEventListener('keydown', keyDownCallback)
   }, [snakeDots])
 
-  function handleChange(event) {
+  function start() {
     setGamePlay(true)
     setSpeed(initialState.speed)
-    setCharacter(event.target.id)
   }
+
+function chooseCharacter(event){
+  setCharacter(event.target.id);
+}
+
+function chooseDifficulty(event){
+  setDifficulty(event.target.id);
+  switch (event.target.id) {
+    case 'leeds':
+      setLoseTail(30)
+      initialState.speed = 250
+      setDiffMult(0.8)
+      break
+    case 'stokeOnTrent':
+      setLoseTail(50)
+      initialState.speed = 200
+      setDiffMult(1)
+      break
+    case 'lambeth':
+      setLoseTail(20)
+      initialState.speed = 150
+      setDiffMult(1.2)
+      break
+    default:
+      setLoseTail(30)
+  }
+}
 
   const moveSnake = () => {
     let dots = [...snakeDots]
@@ -57,9 +86,9 @@ function App() {
     }
     dots.push(head)
     dots.shift()
-    setScore(score + 1 * -(210 - speed) * 0.1)
+    setScore(Math.floor(score + diffMult * -(210 - speed) * 0.1)+1)
     setRemoveSegment(removeSegment + 1)
-    if (removeSegment % 30 == 0) {
+    if (removeSegment % loseTail == 0) {
       dots.shift()
     }
 
@@ -149,7 +178,7 @@ function App() {
       </div>
     )
   } else {
-    return <CharacterSelector onChange={handleChange} topScore={topScore} />
+    return <CharacterSelector chooseCharacter={chooseCharacter} chooseDifficulty={chooseDifficulty} startGame={start} topScore={topScore} difficulty={difficulty} />
   }
 }
 
