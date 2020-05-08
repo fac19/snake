@@ -1,6 +1,4 @@
-# :snake: Snakes :snake:
-
-# SNAKES :snake::snake:
+# :snake: Snakes :snake
 
 ![snakes](https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-eu.s3.amazonaws.com%2Ff2249080-054b-11ea-a958-5e9b7282cbd1?fit=scale-down&source=next&width=700)
 
