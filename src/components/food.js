@@ -1,4 +1,5 @@
 import React from 'react'
+import './food.css'
 
 export default ({ dot, gamePlay }) => {
   const style = {

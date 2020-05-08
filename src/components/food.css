@@ -1,0 +1,8 @@
+.snake-food {
+  position: absolute;
+  width: 2%;
+  height: 2%;
+  background-image: url(https://upload.wikimedia.org/wikipedia/commons/4/46/Vote_icon.svg);
+  background-size: contain;
+  z-index: 1;
+}

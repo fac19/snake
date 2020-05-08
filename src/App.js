@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import Score from './components/score'
-import Snake from './components/snake'
-import Food from './components/food'
-import CharacterSelector from './components/characterSelector'
-import getRandomCoordinates from './utils/getRandomCoordinates'
-import initialState from './utils/initialState'
-import onKeydown from './utils/keyDown'
-import getGif from './utils/getSnake'
-import useInterval from './utils/useInterval'
+
+import { CharacterSelector, Food, Score, Snake } from './components/index'
+import {
+  getRandomCoordinates,
+  initialState,
+  onKeydown,
+  getGif,
+  useInterval,
+} from './utils/index'
 
 function App() {
   const [speed, setSpeed] = useState(null)
@@ -20,7 +20,7 @@ function App() {
   const [character, setCharacter] = useState('boris')
   const [score, setScore] = useState(0)
   const [topScore, setTopScore] = useState(0)
-  const [difficulty, setDifficulty] = useState("leeds") // stokeOnTrent -> lambeth
+  const [difficulty, setDifficulty] = useState('leeds') // stokeOnTrent -> lambeth
   const [loseTail, setLoseTail] = useState(30) // stokeOnTrent -> lambeth
   const [diffMult, setDiffMult] = useState(1) // stokeOnTrent -> lambeth
 
@@ -28,39 +28,52 @@ function App() {
     const keyDownCallback = (e) => setDirection(onKeydown(e, direction)) //include in presentation
     window.addEventListener('keydown', keyDownCallback)
     return () => window.removeEventListener('keydown', keyDownCallback)
-  }, [snakeDots])
+  }, [snakeDots, direction])
 
   function start() {
     setGamePlay(true)
     setSpeed(initialState.speed)
   }
 
-function chooseCharacter(event){
-  setCharacter(event.target.id);
-}
-
-function chooseDifficulty(event){
-  setDifficulty(event.target.id);
-  switch (event.target.id) {
-    case 'leeds':
-      setLoseTail(30)
-      initialState.speed = 250
-      setDiffMult(0.8)
-      break
-    case 'stokeOnTrent':
-      setLoseTail(50)
-      initialState.speed = 200
-      setDiffMult(1)
-      break
-    case 'lambeth':
-      setLoseTail(20)
-      initialState.speed = 150
-      setDiffMult(1.2)
-      break
-    default:
-      setLoseTail(30)
+  function chooseCharacter(event) {
+    setCharacter(event.target.id)
+    if (character == 'boris') {
+      Array.from(document.getElementsByClassName('difficulty'))
+    }
   }
-}
+
+  function chooseDifficulty(event) {
+    let selectors = Array.from(document.getElementsByClassName('difficulty'))
+    console.log(selectors)
+    setDifficulty(event.target.id)
+    switch (event.target.id) {
+      case 'leeds':
+        setLoseTail(30)
+        selectors[1].className = 'difficulty difficulty-selected'
+        selectors[0].className = 'difficulty difficulty-not-selected'
+        selectors[2].className = 'difficulty difficulty-not-selected'
+        initialState.speed = 250
+        setDiffMult(0.8)
+        break
+      case 'stokeOnTrent':
+        setLoseTail(50)
+        selectors[0].className = 'difficulty difficulty-selected'
+        selectors[1].className = 'difficulty difficulty-not-selected'
+        selectors[2].className = 'difficulty difficulty-not-selected'
+        initialState.speed = 200
+        setDiffMult(1)
+        break
+      case 'lambeth':
+        setLoseTail(20)
+        selectors[2].className = 'difficulty difficulty-selected'
+        selectors[0].className = 'difficulty difficulty-not-selected'
+        selectors[1].className = 'difficulty difficulty-not-selected'
+        setDiffMult(1.2)
+        break
+      default:
+        setLoseTail(30)
+    }
+  }
 
   const moveSnake = () => {
     let dots = [...snakeDots]
@@ -86,9 +99,10 @@ function chooseDifficulty(event){
     }
     dots.push(head)
     dots.shift()
-    setScore(Math.floor(score + diffMult * -(210 - speed) * 0.1)+1)
+    const newScore = Math.floor(score + diffMult * -(210 - speed) * 0.1) + 1
+    setScore(newScore)
     setRemoveSegment(removeSegment + 1)
-    if (removeSegment % loseTail == 0) {
+    if (removeSegment % loseTail === 0) {
       dots.shift()
     }
 
@@ -163,6 +177,7 @@ function chooseDifficulty(event){
   })
 
   if (gamePlay) {
+    document.body.className = 'hiddenGame'
     return (
       <div
         className="game-area"
@@ -178,7 +193,16 @@ function chooseDifficulty(event){
       </div>
     )
   } else {
-    return <CharacterSelector chooseCharacter={chooseCharacter} chooseDifficulty={chooseDifficulty} startGame={start} topScore={topScore} difficulty={difficulty} />
+    document.body.className = 'hiddenMenu'
+    return (
+      <CharacterSelector
+        chooseCharacter={chooseCharacter}
+        chooseDifficulty={chooseDifficulty}
+        startGame={start}
+        topScore={topScore}
+        difficulty={difficulty}
+      />
+    )
   }
 }
 
