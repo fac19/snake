@@ -12,6 +12,20 @@
   background-position: center;
 }
 
+.difficulty {
+  display: block;
+  width: 40rem;
+  margin: 2rem;
+  height: 3rem;
+  border: .2rem solid white;
+  text-decoration: none;
+  color: white;
+}
+
+.difficulty:hover {
+  font-weight: 700;
+}
+
 .snake-dot {
   position: absolute;
   width: 2%;
