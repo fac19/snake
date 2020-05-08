@@ -1,6 +1,62 @@
 # :snake: Snakes :snake:
 
+# SNAKES :snake::snake:
 
+![snakes](https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fcom.ft.imagepublish.upp-prod-eu.s3.amazonaws.com%2Ff2249080-054b-11ea-a958-5e9b7282cbd1?fit=scale-down&source=next&width=700)
+
+
+## How to play
+- Select your snake / character
+- Use the arrow keys to navigate the screen
+- Collect votes / to stay alive 
+- The aim of the game is to survive for the longest amount of time.
+
+## Initial ideas
+
+### Hacking the game logic 
+- This project looks at the core game logic and hacks it! 
+- In snake's original feedback loop -> 
+  - Snake eats food and gets bigger. 
+  - snake takes up game spaces until the snake crashes into itself. 
+ 
+### Our revised game logic 😮
+
+### Game logic
+- Length of snake decreases on move / over time 🆕 :ballot_box_with_check:
+- snake eats food and length increases :ballot_box_with_check:
+- speed of snake increases when snake eats food :ballot_box_with_check:
+- snake hits self / wall and dies 🆕 :ballot_box_with_check:
+
+- By introducting this new game variable it changes the gameplay of snake making it a challenge to stay alive. Therefore points are based on time alive rather than final length.
+
+### Integration tests :negative_squared_cross_mark:
+- Snake moves over time / on move :negative_squared_cross_mark:
+- Snake moves up when up button pressed :negative_squared_cross_mark:
+- Snake length decreases on move :negative_squared_cross_mark:
+- Snake length increases on food :negative_squared_cross_mark:
+- Snake dies when hitting wall :negative_squared_cross_mark:
+- Snake dies when hitting self :negative_squared_cross_mark:
+
+### Design
+- Boris and Nigel :ballot_box_with_check:
+    - choose your snake for different colour, face on head of the snake?  :ballot_box_with_check:
+- Giphy snake background  :ballot_box_with_check:
+![snake](https://media.giphy.com/media/QtZKO7mb7ebpC/giphy.gif)
+- CSS grid? background-color transparent / rgba with decreasing opacity  :ballot_box_with_check:
+- User defines size of grid  :negative_squared_cross_mark:
+- game over -> random nigel or boris gif. :negative_squared_cross_mark:
+- two snakes??? awsd :negative_squared_cross_mark:
+
+
+## Prioritisation
+- Create game grid / board (CSS) :ballot_box_with_check:
+- [How to make snake](https://youtu.be/-oOgsGP3t5o) :ballot_box_with_check:
+- Create snake sprite (RGBA bg-color, array of posX posY) :ballot_box_with_check:
+- Create food sprite (coloured dots, posX & posY - random) :ballot_box_with_check:
+- Implement Movement (update the snake positions array) :ballot_box_with_check:
+- Implement the length increase logic (append snake segment) :ballot_box_with_check:
+- Implement the snake death logic (if snake posX, posY, overlaps then game over) :ballot_box_with_check:
+- Implement speed (decrease ~~setTimeOut~~ useRef() value) :ballot_box_with_check:
 
 ## Available Ssssscriptsssss - from Mark Zuckburger
 
