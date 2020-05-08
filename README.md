@@ -19,7 +19,6 @@
  
 ### Our revised game logic 😮
 
-### Game logic
 - Length of snake decreases on move / over time 🆕 :ballot_box_with_check:
 - snake eats food and length increases :ballot_box_with_check:
 - speed of snake increases when snake eats food :ballot_box_with_check:
