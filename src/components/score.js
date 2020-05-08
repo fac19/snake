@@ -1,9 +1,10 @@
 import React from 'react'
+import './score.css'
 
 const Score = ({ consts, pointScore }) => {
   return (
     <div className="score">
-      <output>{consts} constituents!</output>
+      <output>{consts - 1} constituents!</output>
       <output>You have {pointScore} points!</output>
     </div>
   )
